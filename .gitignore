@@ -1,0 +1,41 @@
+.DS_Store
+Thumbs.db
+
+# Runtime caches & logs
+application/cache/*
+!application/cache/index.html
+
+application/logs/*
+!application/logs/index.html
+
+storage/cache/*
+!storage/cache/.gitkeep
+
+storage/logs/*
+!storage/logs/.gitkeep
+
+!application/*/.htaccess
+
+# Local database config
+application/config/database.php
+
+# Dependencies & local tooling
+/vendor/
+composer.lock
+/nbproject/
+.idea/
+
+# Archives, temp files, OS files
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+*.log
+*.tmp
+*.swp
+
+# Test leftovers
+/tests/tests/
+/tests/results/
+tests/mocks/database/ci_test.sqlite
