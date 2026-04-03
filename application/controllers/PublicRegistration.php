@@ -10,10 +10,12 @@ class PublicRegistration extends Controller {
         $model = new PatientModel();
         $branchId = (int)$this->input('branch_id');
         $keyword = trim((string)$this->input('keyword'));
+        $keywordDigits = digits_only($keyword);
+        $phoneLike = $keywordDigits === '' ? '__PHONE_NO_MATCH__' : '%' . $keywordDigits . '%';
         if (!$branchId || $keyword === '') {
             json_response(['success' => true, 'data' => []]);
         }
-        $rows = $model->all("SELECT id, medical_record_no, name, nik, phone, birth_date, gender, address, patient_type FROM patients WHERE branch_id=? AND (name LIKE ? OR nik LIKE ? OR phone LIKE ? OR medical_record_no LIKE ?) ORDER BY id DESC LIMIT 10", [$branchId, '%'.$keyword.'%', '%'.$keyword.'%', '%'.$keyword.'%', '%'.$keyword.'%']);
+        $rows = $model->all("SELECT id, medical_record_no, name, nik, phone, birth_date, gender, address, patient_type FROM patients WHERE branch_id=? AND (name LIKE ? OR nik LIKE ? OR phone LIKE ? OR REPLACE(phone,'-','') LIKE ? OR medical_record_no LIKE ?) ORDER BY id DESC LIMIT 10", [$branchId, '%'.$keyword.'%', '%'.$keyword.'%', '%'.$keyword.'%', $phoneLike, '%'.$keyword.'%']);
         json_response(['success' => true, 'data' => $rows]);
     }
 
@@ -24,7 +26,7 @@ class PublicRegistration extends Controller {
         $queueModel = new QueueModel();
         $branchId = (int)$this->input('branch_id');
         $clinicId = (int)$this->input('clinic_id');
-        $existing = $model->findExistingForRegistration($branchId, trim((string)$this->input('nik')), trim((string)$this->input('phone')), $this->input('birth_date'));
+        $existing = $model->findExistingForRegistration($branchId, trim((string)$this->input('nik')), normalize_phone($this->input('phone')), $this->input('birth_date'));
         if ($existing) {
             $patientId = $existing['id'];
         } else {
@@ -35,7 +37,7 @@ class PublicRegistration extends Controller {
                 'nik' => $this->input('nik'),
                 'gender' => $this->input('gender'),
                 'birth_date' => $this->input('birth_date'),
-                'phone' => $this->input('phone'),
+                'phone' => normalize_phone($this->input('phone')),
                 'address' => $this->input('address'),
                 'patient_type' => $this->input('patient_type', 'umum'),
                 'registration_source' => 'web',

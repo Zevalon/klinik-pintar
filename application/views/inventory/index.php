@@ -18,8 +18,8 @@
           <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="min_stock" placeholder="Stok minimum" value="10">
         </div>
         <div class="grid gap-4 md:grid-cols-2">
-          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="buy_price" placeholder="Harga beli">
-          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="sell_price" placeholder="Harga jual">
+          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="buy_price" placeholder="Rp 0">
+          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="sell_price" placeholder="Rp 0">
         </div>
         <button class="inline-flex items-center gap-2 rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-sky-700"><i class="fa-solid fa-plus"></i> Simpan Obat</button>
       </form>
@@ -38,7 +38,7 @@
         </select>
         <div class="grid gap-4 md:grid-cols-2">
           <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="qty" placeholder="Jumlah masuk" required>
-          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="unit_cost" placeholder="Biaya per unit">
+          <input class="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="unit_cost" placeholder="Rp 0">
         </div>
         <textarea class="min-h-[100px] w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="notes" placeholder="Catatan penerimaan stok"></textarea>
         <button class="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-emerald-700"><i class="fa-solid fa-box-open"></i> Simpan Stok</button>

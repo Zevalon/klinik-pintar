@@ -37,10 +37,15 @@
             <td class="px-4 py-3"><div class="font-semibold text-slate-800"><?= e($p['name']) ?></div><div class="text-xs text-slate-500"><?= e(format_date_id($p['birth_date'])) ?></div></td>
             <td class="px-4 py-3 text-slate-700"><?= e(gender_label($p['gender'])) ?></td>
             <td class="px-4 py-3 text-slate-700"><?= e($p['nik']) ?></td>
-            <td class="px-4 py-3 text-slate-700"><?= e($p['phone']) ?></td>
+            <td class="px-4 py-3 text-slate-700"><?= e(format_phone($p['phone'])) ?></td>
             <td class="px-4 py-3"><span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"><?= e(patient_type_label($p['patient_type'])) ?></span></td>
             <td class="px-4 py-3 text-right">
               <div class="flex justify-end gap-2">
+                <?php if (role_in(['super_admin','owner','branch_admin','doctor','nurse'])): ?>
+                <a class="inline-flex items-center gap-2 rounded-xl border border-brand-100 bg-brand-50 px-3 py-2 text-xs font-semibold text-brand-700 hover:border-brand-200 hover:text-brand-900" href="<?= site_url('medicalrecords/show/'.$p['id']) ?>">
+                  <i class="fa-solid fa-notes-medical"></i> Rekam Medis
+                </a>
+                <?php endif; ?>
                 <?php if (role_in(['super_admin','branch_admin','front_office'])): ?>
                 <a class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:border-sky-200 hover:text-sky-700" href="<?= site_url('patients/update/'.$p['id']) ?>" data-patient-edit='<?= e(json_encode($p)) ?>'>
                   <i class="fa-solid fa-pen-to-square"></i> Edit
@@ -79,7 +84,7 @@
         <input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="name" placeholder="Nama pasien" required>
         <input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="nik" placeholder="NIK">
       </div>
-      <div class="grid gap-4 md:grid-cols-3"><select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" type="date" name="birth_date"><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="phone" placeholder="No. HP"></div>
+      <div class="grid gap-4 md:grid-cols-3"><select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" type="date" name="birth_date"><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="phone" placeholder="0812-3456-7890"></div>
       <textarea class="min-h-[110px] w-full rounded-2xl border border-slate-200 px-4 py-3" name="address" placeholder="Alamat"></textarea>
       <select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="patient_type"><option value="umum">Umum</option><option value="rujukan">Rujukan</option><option value="kontrol">Kontrol</option></select>
       <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">Setelah pasien disimpan, lanjutkan pendaftaran ke menu antrian sesuai poli tujuan.</div>
@@ -97,7 +102,7 @@
         <input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="name" placeholder="Nama pasien" required>
         <input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="nik" placeholder="NIK">
       </div>
-      <div class="grid gap-4 md:grid-cols-3"><select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" type="date" name="birth_date"><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="phone" placeholder="No. HP"></div>
+      <div class="grid gap-4 md:grid-cols-3"><select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" type="date" name="birth_date"><input class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="phone" placeholder="0812-3456-7890"></div>
       <textarea class="min-h-[110px] w-full rounded-2xl border border-slate-200 px-4 py-3" name="address" placeholder="Alamat"></textarea>
       <select class="w-full rounded-2xl border border-slate-200 px-4 py-3" name="patient_type"><option value="umum">Umum</option><option value="rujukan">Rujukan</option><option value="kontrol">Kontrol</option></select>
       <button class="inline-flex items-center gap-2 rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-sky-700"><i class="fa-solid fa-floppy-disk"></i> Update Pasien</button>

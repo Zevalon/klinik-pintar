@@ -26,7 +26,7 @@ class Patients extends Controller {
         $this->branchRequired();
         verify_csrf();
         $model = new PatientModel();
-        $existing = $model->findExistingForRegistration(current_branch_id(), trim((string)$this->input('nik')), trim((string)$this->input('phone')), $this->input('birth_date'));
+        $existing = $model->findExistingForRegistration(current_branch_id(), trim((string)$this->input('nik')), normalize_phone($this->input('phone')), $this->input('birth_date'));
         if ($existing) {
             $this->respondError('Pasien dengan NIK / kombinasi HP dan tanggal lahir yang sama sudah ada. Silakan gunakan data pasien yang sudah terdaftar.');
             if (!$this->wantsJson()) redirect_to('patients');
@@ -39,7 +39,7 @@ class Patients extends Controller {
             'nik' => $this->input('nik'),
             'gender' => $this->input('gender'),
             'birth_date' => $this->input('birth_date'),
-            'phone' => $this->input('phone'),
+            'phone' => normalize_phone($this->input('phone')),
             'address' => $this->input('address'),
             'patient_type' => $this->input('patient_type', 'umum'),
             'registration_source' => 'internal',
@@ -67,7 +67,7 @@ class Patients extends Controller {
             'nik' => $this->input('nik'),
             'gender' => $this->input('gender'),
             'birth_date' => $this->input('birth_date'),
-            'phone' => $this->input('phone'),
+            'phone' => normalize_phone($this->input('phone')),
             'address' => $this->input('address'),
             'patient_type' => $this->input('patient_type'),
             'updated_at' => now(),
