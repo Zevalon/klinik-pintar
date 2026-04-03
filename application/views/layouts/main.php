@@ -32,7 +32,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    :root { color-scheme: light; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(14,165,233,.12), transparent 22%),
+        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 18%),
+        linear-gradient(180deg, #f8fbff 0%, #f1f5f9 48%, #eef2ff 100%);
+    }
+    .app-shell { position: relative; isolation: isolate; }
+    .app-shell::before,
+    .app-shell::after {
+      content: '';
+      position: fixed;
+      z-index: -1;
+      width: 22rem;
+      height: 22rem;
+      border-radius: 999px;
+      filter: blur(48px);
+      opacity: .45;
+      pointer-events: none;
+    }
+    .app-shell::before { top: -5rem; right: -6rem; background: rgba(14,165,233,.22); }
+    .app-shell::after { bottom: -8rem; left: -7rem; background: rgba(59,130,246,.18); }
     .scrollbar-soft::-webkit-scrollbar { width: 8px; height: 8px; }
     .scrollbar-soft::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
     .bg-brand-600 { background-color: #0284c7 !important; }
@@ -49,21 +71,99 @@
     .hover\:bg-brand-700:hover { background-color: #0369a1 !important; }
     .hover\:text-brand-700:hover { color: #0369a1 !important; }
     .hover\:border-brand-200:hover { border-color: #bae6fd !important; }
-    a[class*='bg-white'], button[class*='bg-white'] { color: #334155; }
-    a[class*='bg-slate-50'], button[class*='bg-slate-50'] { color: #334155; }
-    a[class*='bg-sky-600'], button[class*='bg-sky-600'],
-    a[class*='bg-emerald-600'], button[class*='bg-emerald-600'],
-    a[class*='bg-rose-600'], button[class*='bg-rose-600'],
-    a[class*='bg-slate-900'], button[class*='bg-slate-900'] { color: #fff; }
+    a, button { transition: all .18s ease; }
+    .surface-light,
+    [class~='bg-white'],
+    [class~='bg-slate-50'],
+    [class~='bg-slate-100'],
+    [class~='bg-brand-50'],
+    [class~='bg-sky-50'],
+    [class~='bg-emerald-50'],
+    [class~='bg-rose-50'],
+    [class~='bg-amber-50'] { color: #0f172a; }
+    .surface-dark,
+    [class~='bg-slate-900'],
+    [class~='bg-slate-950'],
+    [class~='bg-black'],
+    [class*='bg-gradient-to-'],
+    [class~='bg-brand-500'],
+    [class~='bg-brand-600'],
+    [class~='bg-brand-700'],
+    [class~='bg-sky-500'],
+    [class~='bg-sky-600'],
+    [class~='bg-cyan-400'],
+    [class~='bg-emerald-500'],
+    [class~='bg-emerald-600'],
+    [class~='bg-rose-500'],
+    [class~='bg-rose-600'],
+    [class~='bg-amber-500'],
+    [class~='bg-amber-600'] { color: #fff; }
+    a[class~='bg-white'], button[class~='bg-white'],
+    a[class~='bg-slate-50'], button[class~='bg-slate-50'],
+    a[class~='bg-slate-100'], button[class~='bg-slate-100'],
+    a[class~='bg-brand-50'], button[class~='bg-brand-50'],
+    a[class~='bg-sky-50'], button[class~='bg-sky-50'],
+    a[class~='bg-emerald-50'], button[class~='bg-emerald-50'],
+    a[class~='bg-rose-50'], button[class~='bg-rose-50'],
+    a[class~='bg-amber-50'], button[class~='bg-amber-50'] { color: #334155; }
+    a[class~='bg-slate-900'], button[class~='bg-slate-900'],
+    a[class~='bg-slate-950'], button[class~='bg-slate-950'],
+    a[class*='bg-gradient-to-'], button[class*='bg-gradient-to-'],
+    a[class~='bg-brand-500'], button[class~='bg-brand-500'],
+    a[class~='bg-brand-600'], button[class~='bg-brand-600'],
+    a[class~='bg-brand-700'], button[class~='bg-brand-700'],
+    a[class~='bg-sky-500'], button[class~='bg-sky-500'],
+    a[class~='bg-sky-600'], button[class~='bg-sky-600'],
+    a[class~='bg-emerald-500'], button[class~='bg-emerald-500'],
+    a[class~='bg-emerald-600'], button[class~='bg-emerald-600'],
+    a[class~='bg-rose-500'], button[class~='bg-rose-500'],
+    a[class~='bg-rose-600'], button[class~='bg-rose-600'],
+    a[class~='bg-amber-500'], button[class~='bg-amber-500'],
+    a[class~='bg-amber-600'], button[class~='bg-amber-600'] { color: #fff; }
+    .sidebar-profile-link {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.12);
+      color: #fff !important;
+    }
+    .sidebar-profile-link:hover {
+      background: rgba(255,255,255,.12);
+      color: #fff !important;
+    }
+    .profile-hero-card {
+      background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 55%, #22d3ee 100%);
+      color: #fff;
+    }
     .btn-disabled-fix[disabled] { opacity: .55; color: #64748b !important; }
+    main input:not([type='checkbox']):not([type='radio']):not([type='hidden']),
+    main select,
+    main textarea {
+      background-color: rgba(255,255,255,.98);
+      box-shadow: 0 1px 2px rgba(15,23,42,.02);
+      transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    main input:not([type='checkbox']):not([type='radio']):not([type='hidden']):focus,
+    main select:focus,
+    main textarea:focus {
+      box-shadow: 0 0 0 4px rgba(14,165,233,.10), 0 10px 20px rgba(15,23,42,.05);
+      transform: translateY(-1px);
+    }
+    main table thead th { letter-spacing: .02em; }
+    main table tbody tr { transition: background-color .18s ease, transform .18s ease; }
+    main table tbody tr:hover { transform: translateY(-1px); }
+    #app-main-content > section,
+    #app-main-content > div.rounded-3xl,
+    #app-main-content > div.rounded-\[2rem\],
+    #app-main-content > div.rounded-\[30px\] {
+      backdrop-filter: blur(10px);
+    }
   </style>
 </head>
-<body class="min-h-screen bg-slate-100 text-slate-800">
+<body class="min-h-screen text-slate-800">
 <?php
   $user = current_user();
   $menuSections = sidebar_menu_sections_for_role($user['role_code'] ?? '');
 ?>
-<div class="flex min-h-screen">
+<div class="app-shell flex min-h-screen">
   <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 -translate-x-full overflow-y-auto border-r border-slate-200 bg-slate-950 px-5 py-6 text-white shadow-2xl transition-transform duration-300 lg:translate-x-0 scrollbar-soft">
     <div class="mb-8 flex items-center gap-3">
       <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-cyan-400 text-xl text-white shadow-lg">
@@ -76,9 +176,7 @@
 
     <div class="mb-5 rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
       <div class="flex items-center gap-3">
-        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-500/20 text-sm font-bold text-brand-100">
-          <?= e(initials($user['name'] ?? 'KP')) ?>
-        </div>
+        <?= render_user_avatar($user, 'h-11 w-11 rounded-2xl ring-1 ring-white/10', 'text-base') ?>
         <div>
           <div class="font-semibold leading-tight"><?= e($user['name'] ?? '-') ?></div>
           <div class="text-xs text-slate-400"><?= e(role_label($user['role_code'] ?? '')) ?></div>
@@ -88,6 +186,9 @@
         <div class="flex items-center gap-2"><i class="fa-solid fa-building text-brand-300"></i><span><?= e(current_branch_name()) ?></span></div>
         <div class="flex items-center gap-2"><i class="fa-solid fa-calendar-day text-brand-300"></i><span><?= e(date('d M Y')) ?></span></div>
       </div>
+      <a href="<?= site_url('profile') ?>" class="sidebar-profile-link mt-4 inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold">
+        <i class="fa-solid fa-id-card-clip"></i> Kelola Profil Saya
+      </a>
     </div>
 
     <nav class="space-y-5">
@@ -141,7 +242,8 @@
             <i class="fa-solid fa-bars"></i>
           </button>
           <div>
-            <div class="text-lg font-bold text-slate-900">Panel Operasional</div>
+            <div class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400"><?= e(current_page_section()) ?></div>
+            <div class="text-xl font-extrabold tracking-tight text-slate-900"><?= e(current_page_label()) ?></div>
           </div>
         </div>
         <div class="flex items-center gap-3">
@@ -150,7 +252,18 @@
               <i class="fa-solid fa-code-branch"></i> Ganti Cabang
             </a>
           <?php endif; ?>
-          <div class="rounded-2xl border border-brand-100 bg-brand-50 px-4 py-2 text-right">
+          <div class="hidden rounded-2xl border border-slate-200 bg-white/90 px-4 py-2 text-right shadow-sm sm:block">
+            <div class="text-xs font-medium uppercase tracking-wide text-slate-400">Hari ini</div>
+            <div class="text-sm font-bold text-slate-900"><?= e(date('d M Y')) ?></div>
+          </div>
+          <a href="<?= site_url('profile') ?>" class="hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm hover:border-brand-200 md:inline-flex">
+            <?= render_user_avatar($user, 'h-10 w-10 rounded-2xl', 'text-sm') ?>
+            <div class="text-left">
+              <div class="text-xs font-medium uppercase tracking-wide text-slate-400">Akun</div>
+              <div class="text-sm font-bold text-slate-900">Profil Saya</div>
+            </div>
+          </a>
+          <div class="rounded-2xl border border-brand-100 bg-brand-50 px-4 py-2 text-right shadow-sm">
             <div class="text-xs font-medium uppercase tracking-wide text-brand-600">Cabang aktif</div>
             <div class="text-sm font-bold text-brand-900"><?= e(current_branch_name()) ?></div>
           </div>
@@ -159,6 +272,7 @@
     </header>
 
     <main id="app-main-content" class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full max-w-[1500px]">
       <?php if($msg = get_flash('success')): ?>
         <div class="mb-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-sm">
           <i class="fa-solid fa-circle-check mt-0.5"></i>
@@ -179,6 +293,7 @@
       <?php endif; ?>
 
       <?= $content ?>
+      </div>
     </main>
   </div>
 </div>
@@ -198,6 +313,71 @@ function toast(message,type){
 window.appOpenModal=function(id){ var el=document.getElementById(id); if(el) el.classList.remove('hidden'); };
 window.appCloseModal=function(id){ var el=document.getElementById(id); if(el) el.classList.add('hidden'); };
 
+function normalizeDigits(value){ return String(value||'').replace(/\D+/g,''); }
+function formatPhoneJs(value){
+  var digits = normalizeDigits(value);
+  if(!digits) return '';
+  var groups = digits.match(/.{1,4}/g) || [];
+  return groups.join('-');
+}
+function parseMoneyJs(value){
+  if(value == null) return 0;
+  var raw = String(value).trim().replace(/rp|idr/ig,'').replace(/\s+/g,'');
+  raw = raw.replace(/[^0-9,.-]/g,'');
+  if(raw.indexOf(',') > -1 && raw.indexOf('.') > -1){
+    if(raw.lastIndexOf(',') > raw.lastIndexOf('.')){
+      raw = raw.replace(/\./g,'').replace(',', '.');
+    } else {
+      raw = raw.replace(/,/g,'');
+    }
+  } else if(raw.indexOf(',') > -1){
+    raw = raw.replace(/\./g,'').replace(',', '.');
+  } else {
+    var dotCount = (raw.match(/\./g) || []).length;
+    if(dotCount > 1 || (dotCount === 1 && raw.split('.')[1] && raw.split('.')[1].length === 3)) raw = raw.replace(/\./g,'');
+  }
+  var num = parseFloat(raw.replace(/(?!^)-/g,''));
+  return isNaN(num) ? 0 : num;
+}
+function formatRupiahJs(value){
+  var number = Number(value || 0);
+  var hasFraction = Math.abs(number % 1) > 0;
+  return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:hasFraction?2:0,maximumFractionDigits:hasFraction?2:0}).format(number);
+}
+function formatMoneyInputElement(input){
+  if(!input) return;
+  var digits = String(input.value || '').replace(/[^0-9,.-]/g,'');
+  if(!digits){ input.value=''; return; }
+  var value = parseMoneyJs(digits);
+  input.value = formatRupiahJs(value).replace(/,00$/, '');
+}
+function formatPhoneInputElement(input){ if(input) input.value = formatPhoneJs(input.value); }
+function bindInputFormatters(scope){
+  (scope || document).querySelectorAll('input, textarea').forEach(function(input){
+    if(input.dataset.formatterBound === '1') return;
+    var name = (input.name || '').toLowerCase();
+    var placeholder = (input.placeholder || '').toLowerCase();
+    var isPhone = /(^|_)(phone|telp|telepon)$/.test(name) || /nomor hp|telepon|no\. hp|whatsapp/.test(placeholder) || input.id === 'f_phone';
+    var isMoney = /(^|_)(buy_price|sell_price|unit_cost|amount|amount_received|discount|unit_price)$/.test(name.replace(/\[\]$/,'')) || /harga|biaya|nominal|uang tunai/.test(placeholder);
+    if(isPhone){
+      input.dataset.formatterBound = '1';
+      input.setAttribute('inputmode','numeric');
+      input.addEventListener('input', function(){ formatPhoneInputElement(input); });
+      formatPhoneInputElement(input);
+      return;
+    }
+    if(isMoney){
+      input.dataset.formatterBound = '1';
+      input.setAttribute('inputmode','numeric');
+      input.addEventListener('input', function(){ formatMoneyInputElement(input); });
+      formatMoneyInputElement(input);
+    }
+  });
+}
+window.appFormatPhone = formatPhoneJs;
+window.appFormatMoneyInput = formatMoneyInputElement;
+window.appBindInputFormatters = bindInputFormatters;
+
 function renderPatientSearchResult(target, items, message){
   if(!target) return;
   if(!items || !items.length){
@@ -209,7 +389,7 @@ function renderPatientSearchResult(target, items, message){
     html += '<div class="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-sky-100 md:flex-row md:items-center md:justify-between">'
       + '<div><div class="font-semibold text-slate-900">'+(item.name||'-')+'</div>'
       + '<div class="mt-1 text-sm text-slate-500">RM '+(item.medical_record_no||'-')+' · NIK '+(item.nik||'-')+'</div>'
-      + '<div class="text-sm text-slate-500">'+(item.phone||'-')+' · '+(item.birth_date||'-')+'</div></div>'
+      + '<div class="text-sm text-slate-500">'+(window.appFormatPhone ? (window.appFormatPhone(item.phone||'') || '-') : (item.phone||'-'))+' · '+(item.birth_date||'-')+'</div></div>'
       + '<a href="'+window.APP_SITE_URL+'/queues" class="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-3 py-2 text-xs font-semibold text-white hover:bg-sky-700"><i class="fa-solid fa-ticket"></i> Lanjut ke Antrian</a>'
       + '</div>';
   });
@@ -500,6 +680,7 @@ function syncMedicinePrice(select){
   var price = option.getAttribute('data-price') || '';
   if(price){
     priceInput.value = price;
+    if(window.appFormatMoneyInput) window.appFormatMoneyInput(priceInput);
   }
 }
 
@@ -530,6 +711,7 @@ async function refreshMain(){
     initPatientSearchForms(current);
     window.appInitSuggestSelects(current);
     initPrescriptionBuilder(current);
+    bindInputFormatters(current);
   }
 }
 
@@ -558,9 +740,28 @@ document.addEventListener('click', function(e){
       form.querySelector('[name=gender]').value = data.gender || 'L';
       form.querySelector('[name=birth_date]').value = data.birth_date || '';
       form.querySelector('[name=phone]').value = data.phone || '';
+      if(window.appBindInputFormatters) window.appBindInputFormatters(form);
       form.querySelector('[name=address]').value = data.address || '';
       form.querySelector('[name=patient_type]').value = data.patient_type || 'umum';
       appOpenModal('patientEditModal');
+    }
+  }
+
+  var clinicEdit = e.target.closest('[data-clinic-edit]');
+  if(clinicEdit){
+    e.preventDefault();
+    var clinicData = JSON.parse(clinicEdit.getAttribute('data-clinic-edit'));
+    var clinicForm = document.getElementById('clinic-edit-form');
+    var queueStateLabelMap = { idle: 'Idle', calling: 'Memanggil', serving: 'Sedang Diperiksa' };
+    if(clinicForm){
+      clinicForm.setAttribute('action', clinicEdit.getAttribute('href'));
+      clinicForm.querySelector('[name=name]').value = clinicData.name || '';
+      clinicForm.querySelector('[name=is_active]').checked = String(clinicData.is_active || '0') === '1';
+      var queueStateEl = document.getElementById('clinic-edit-queue-state');
+      if(queueStateEl) queueStateEl.textContent = queueStateLabelMap[clinicData.queue_state] || clinicData.queue_state || '-';
+      var openQueuesEl = document.getElementById('clinic-edit-open-queues');
+      if(openQueuesEl) openQueuesEl.textContent = clinicData.open_queues_today || 0;
+      appOpenModal('clinicEditModal');
     }
   }
 
@@ -620,6 +821,7 @@ document.addEventListener('DOMContentLoaded', function(){
   initPatientSearchForms(document);
   window.appInitSuggestSelects(document);
   initPrescriptionBuilder(document);
+  bindInputFormatters(document);
 });
 })();
 </script>

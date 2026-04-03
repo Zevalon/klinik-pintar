@@ -15,6 +15,7 @@ class Visits extends Controller {
         $visitModel = new VisitModel();
         $medicine = new MedicineModel();
         $service = new ServiceModel();
+        $medicalRecordModel = new MedicalRecordModel();
 
         $visit = $visitModel->find((int)$id);
         if (!$visit || $visit['branch_id'] != current_branch_id()) {
@@ -22,12 +23,19 @@ class Visits extends Controller {
             redirect_to('visits');
         }
 
+        $timeline = $medicalRecordModel->patientTimeline((int)$visit['patient_id'], 6);
+        $timeline = array_values(array_filter($timeline, function($row) use ($id) { return (int)$row['id'] !== (int)$id; }));
+
         $this->render('visits/show', [
             'visit' => $visit,
             'diagnosis' => $visitModel->diagnosis((int)$id),
             'vitals' => $visitModel->vitals((int)$id),
             'items' => $visitModel->prescriptionItems((int)$id),
             'visit_services' => $visitModel->services((int)$id),
+            'visit_record' => $medicalRecordModel->visitRecord((int)$id),
+            'patient_profile' => $medicalRecordModel->profile((int)$visit['patient_id']),
+            'active_monitoring' => $medicalRecordModel->activeMonitoringByPatient((int)$visit['patient_id']),
+            'recent_history' => array_slice($timeline, 0, 5),
             'medicines' => $medicine->allByBranch(current_branch_id()),
             'consultations' => $service->consultationServices(current_branch_id()),
             'procedures' => $service->procedureServices(current_branch_id()),
@@ -41,6 +49,7 @@ class Visits extends Controller {
 
         $model = new Model();
         $visitModel = new VisitModel();
+        $medicalRecordModel = new MedicalRecordModel();
         $visit = $visitModel->find((int)$id);
         if (!$visit || $visit['branch_id'] != current_branch_id()) {
             set_flash('error', 'Data kunjungan tidak ditemukan.');
@@ -128,7 +137,7 @@ class Visits extends Controller {
                     }
 
                     $unitPrice = $_POST['unit_price'][$idx] ?? ($medicine['sell_price'] ?? 0);
-                    $unitPrice = (float)str_replace(',', '.', preg_replace('/[^0-9,.-]/', '', (string)$unitPrice));
+                    $unitPrice = parse_money_input($unitPrice);
                     if ($unitPrice < 0) {
                         $unitPrice = 0;
                     }
@@ -173,6 +182,48 @@ class Visits extends Controller {
             } elseif ($prescriptionId) {
                 $model->exec("DELETE FROM prescription_items WHERE prescription_id=?", [$prescriptionId]);
                 $model->deleteWhere('prescriptions', 'id=?', [$prescriptionId]);
+            }
+
+            $medicalRecordModel->saveVisitRecord((int)$id, $visit, [
+                'doctor_user_id' => current_user()['id'],
+                'anamnesis' => $this->input('anamnesis'),
+                'complaint_history' => $this->input('complaint_history'),
+                'physical_exam' => $this->input('physical_exam'),
+                'subjective_notes' => $this->input('subjective_notes'),
+                'objective_notes' => $this->input('objective_notes'),
+                'assessment_notes' => $this->input('assessment_notes'),
+                'plan_notes' => $this->input('plan_notes'),
+                'diagnosis_secondary' => $this->input('diagnosis_secondary'),
+                'procedure_notes' => $this->input('procedure_notes'),
+                'lab_notes' => $this->input('lab_notes'),
+                'radiology_notes' => $this->input('radiology_notes'),
+                'allergy_confirmation' => $this->input('allergy_confirmation'),
+                'condition_flags' => $this->input('condition_flags'),
+                'control_plan' => $this->input('control_plan'),
+                'next_control_date' => $this->input('next_control_date') ?: null,
+                'referral_notes' => $this->input('referral_notes'),
+                'special_condition' => $this->input('special_condition') ? 1 : 0,
+                'special_condition_details' => $this->input('special_condition_details'),
+            ]);
+
+            if ($this->input('monitoring_enabled')) {
+                $programName = trim((string)$this->input('monitoring_program_name'));
+                if ($programName !== '') {
+                    $medicalRecordModel->upsertMonitoringPlan([
+                        'patient_id' => (int)$visit['patient_id'],
+                        'branch_id' => (int)$visit['branch_id'],
+                        'clinic_id' => !empty($visit['clinic_id']) ? (int)$visit['clinic_id'] : null,
+                        'created_from_visit_id' => (int)$id,
+                        'doctor_user_id' => current_user()['id'],
+                        'program_name' => $programName,
+                        'condition_name' => $this->input('monitoring_condition_name') ?: $this->input('diagnosis_name'),
+                        'frequency_label' => $this->input('monitoring_frequency_label'),
+                        'start_date' => today(),
+                        'next_control_date' => $this->input('monitoring_next_control_date') ?: ($this->input('next_control_date') ?: null),
+                        'notes' => $this->input('monitoring_notes'),
+                        'status' => 'active',
+                    ]);
+                }
             }
 
             $model->updateById('visits', (int)$id, [

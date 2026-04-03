@@ -24,7 +24,7 @@
       </div>
       <div>
         <label class="mb-1 block text-sm font-medium text-slate-600">Telepon</label>
-        <input class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="phone" placeholder="0711-xxxxxx">
+        <input class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="phone" placeholder="0812-3456-7890">
       </div>
       <div>
         <label class="mb-1 block text-sm font-medium text-slate-600">Alamat</label>
@@ -48,7 +48,7 @@
           <div class="mb-4 flex items-start justify-between gap-4">
             <div>
               <div class="text-lg font-bold text-slate-900"><?= e($branch['name']) ?></div>
-              <div class="text-sm text-slate-500"><?= e($branch['city']) ?> · <?= e($branch['phone']) ?></div>
+              <div class="text-sm text-slate-500"><?= e($branch['city']) ?> · <?= e($branch['phone'] ? format_phone($branch['phone']) : '-') ?></div>
             </div>
             <?php if($active_branch_id == $branch['id']): ?>
               <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Cabang Aktif</span>

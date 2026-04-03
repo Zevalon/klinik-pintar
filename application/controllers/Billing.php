@@ -73,7 +73,7 @@ class Billing extends Controller {
 
         try {
             $model->begin();
-            $invoice = $this->prepareInvoice($model, $billing, $visitModel, $visit, $this->parseMoneyInput($this->input('discount', 0)));
+            $invoice = $this->prepareInvoice($model, $billing, $visitModel, $visit, parse_money_input($this->input('discount', 0)));
             $model->commit();
             log_activity('invoice_generate', 'Menyiapkan invoice dari hasil pemeriksaan pasien', 'invoices', $invoice['id']);
             $this->respondSuccess('Invoice kasir berhasil disiapkan dengan total tagihan ' . currency($invoice['grand_total']) . '.');
@@ -107,8 +107,8 @@ class Billing extends Controller {
             return;
         }
 
-        $discount = $this->parseMoneyInput($this->input('discount', 0));
-        $amountReceived = $this->parseMoneyInput($this->input('amount_received', 0));
+        $discount = parse_money_input($this->input('discount', 0));
+        $amountReceived = parse_money_input($this->input('amount_received', 0));
 
         try {
             $model->begin();
@@ -186,7 +186,7 @@ class Billing extends Controller {
             return;
         }
 
-        $amountReceived = $this->parseMoneyInput($this->input('amount_received', $this->input('amount', $invoice['grand_total'])));
+        $amountReceived = parse_money_input($this->input('amount_received', $this->input('amount', $invoice['grand_total'])));
         $existingPaid = $billing->totalPaid((int)$invoice['id']);
         $remainingTotal = max(0, (float)$invoice['grand_total'] - $existingPaid);
 
@@ -336,15 +336,5 @@ class Billing extends Controller {
 
         return $model->one("SELECT * FROM invoices WHERE id=? LIMIT 1", [$invoiceId]);
     }
-
-    private function parseMoneyInput($value) {
-        $value = trim((string)$value);
-        if ($value === '') {
-            return 0;
-        }
-        $value = str_replace(['Rp', 'rp', ' '], '', $value);
-        $value = str_replace('.', '', $value);
-        $value = str_replace(',', '.', $value);
-        return (float)preg_replace('/[^0-9\.-]/', '', $value);
-    }
 }
+

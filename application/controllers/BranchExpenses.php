@@ -27,7 +27,7 @@ class BranchExpenses extends Controller {
             'expense_date' => $this->sanitizeDate($this->input('expense_date', today()), today()),
             'category' => trim((string)$this->input('category', 'operasional')),
             'description' => trim((string)$this->input('description')),
-            'amount' => $this->parseMoneyInput($this->input('amount', 0)),
+            'amount' => parse_money_input($this->input('amount', 0)),
             'created_by' => current_user()['id'],
             'created_at' => now(),
             'updated_at' => now(),
@@ -62,12 +62,5 @@ class BranchExpenses extends Controller {
         if ($date === '' || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) return $fallback;
         return $date;
     }
-    private function parseMoneyInput($value) {
-        $value = trim((string)$value);
-        if ($value === '') return 0;
-        $value = str_replace(['Rp', 'rp', ' '], '', $value);
-        $value = str_replace('.', '', $value);
-        $value = str_replace(',', '.', $value);
-        return (float)preg_replace('/[^0-9\.-]/', '', $value);
-    }
 }
+

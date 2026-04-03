@@ -37,7 +37,7 @@ $groupOptions = ['day' => 'Harian', 'month' => 'Bulanan', 'year' => 'Tahunan'];
         </div>
         <div>
           <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Nominal</label>
-          <input name="amount" placeholder="Nominal pengeluaran" class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required>
+          <input name="amount" placeholder="Rp 0" class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required>
         </div>
         <button class="inline-flex items-center gap-2 rounded-2xl bg-rose-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-rose-700"><i class="fa-solid fa-plus"></i> Simpan Pengeluaran</button>
       </form>
