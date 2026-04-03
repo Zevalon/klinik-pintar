@@ -31,7 +31,7 @@ class Branches extends Controller {
             'name' => $this->input('name'),
             'city' => $this->input('city'),
             'address' => $this->input('address'),
-            'phone' => $this->input('phone'),
+            'phone' => normalize_phone($this->input('phone')),
             'is_active' => 1,
             'created_at' => now(),
         ]);

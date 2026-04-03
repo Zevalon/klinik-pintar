@@ -1,98 +1,171 @@
 # Klinik Pintar
 
-Aplikasi manajemen klinik berbasis web untuk membantu operasional layanan klinik mulai dari pendaftaran pasien, antrian per poli, pemeriksaan dokter, validasi resep farmasi, pembayaran kasir, inventory obat, laporan operasional, hingga monitor antrian publik.
+Klinik Pintar adalah aplikasi manajemen klinik berbasis web untuk membantu operasional harian, mulai dari pendaftaran pasien, antrian per poli, pemeriksaan, farmasi, kasir, inventory, hingga laporan operasional.
 
-## Fitur Utama
+Paket ini sudah dirapikan agar aman dipublikasikan ke repository GitHub publik. File konfigurasi lokal yang bersifat sensitif, seperti kredensial database, tidak disertakan di dalam repository.
 
-- Manajemen data pasien
-- Pendaftaran kunjungan dan antrian per poli
-- Pemeriksaan pasien oleh dokter
-- Validasi dan penyesuaian resep oleh farmasi
-- Pembayaran tunai di kasir
-- Cetak dan unduh invoice PDF
-- Manajemen inventory obat
-- Laporan keuangan
-- Laporan stok masuk dan keluar
+## Fitur utama
+
+- Manajemen pasien
+- Antrian per poli
+- Pemeriksaan dan kunjungan
+- Rekam medis rinci
+- Farmasi dan resep
+- Kasir dan billing
+- Inventory obat dan stok
 - Pengeluaran cabang
-- Monitor antrian publik dengan suara panggilan
+- Profil user mandiri
+- Dashboard sesuai role
+- Monitor antrian publik
 
-## Alur Operasional
+## Update penting pada versi ini
 
-1. Pasien didaftarkan ke sistem
-2. Pasien dibuatkan antrian ke poli tujuan
-3. Saat giliran tiba, pasien masuk ke proses pemeriksaan
-4. Dokter mengisi diagnosa, tindakan, dan resep obat
-5. Resep masuk ke farmasi untuk divalidasi atau disesuaikan
-6. Setelah validasi farmasi selesai, data masuk ke kasir
-7. Kasir memproses pembayaran tunai
-8. Setelah pembayaran lunas, invoice PDF dapat diunduh
+### Dashboard berbeda untuk tiap role
+Setiap role mendapatkan dashboard yang lebih relevan dengan pekerjaannya.
 
-## Modul Aplikasi
+- **Super Admin / Owner / Admin Cabang**: ringkasan operasional cabang
+- **Front Office**: registrasi pasien dan antrian
+- **Dokter**: pasien aktif, pemeriksaan, dan kontrol lanjutan
+- **Perawat**: antrian klinis dan vital sign
+- **Farmasi**: resep dan stok obat
+- **Kasir**: transaksi, tagihan, dan pendapatan
+- **Inventory**: stok, mutasi, dan kebutuhan restok
 
-### 1. Pasien
-Digunakan untuk mengelola data identitas pasien dan nomor rekam medis.
+### Rekam medis yang lebih lengkap
+- Profil medis pasien
+- Catatan medis per kunjungan
+- Monitoring pasien kontrol rutin
+- Timeline riwayat medis pasien
 
-### 2. Antrian
-Digunakan untuk membuat antrian pasien berdasarkan poli tujuan dan memantau status pelayanan.
+### Pengelolaan poli per cabang
+- Tambah poli
+- Ubah poli
+- Nonaktifkan poli
+- Aktifkan kembali poli
 
-### 3. Pemeriksaan
-Digunakan oleh dokter atau petugas pemeriksaan untuk mengisi:
-- vital sign
-- diagnosa
-- catatan medis
-- tindakan / layanan
-- resep obat
+### Profil user mandiri
+- Edit data diri sendiri
+- Ganti password
+- Upload, ganti, dan hapus foto profil
+- Avatar default berdasarkan role
 
-### 4. Farmasi
-Digunakan untuk memvalidasi resep dari dokter sebelum diteruskan ke kasir. Pada tahap ini farmasi dapat:
-- menyesuaikan obat
-- mengganti obat jika stok tidak tersedia
-- mengubah qty
-- memperbarui aturan pakai
+### Penyegaran tampilan
+- UI lebih modern dan konsisten
+- Perbaikan kontras teks dan background
+- Pembersihan label atau keterangan yang tidak perlu
+- Format Rupiah yang konsisten
+- Format nomor telepon yang rapi
 
-### 5. Kasir
-Digunakan untuk:
-- melihat tagihan pasien yang siap dibayar
-- memproses pembayaran tunai
-- menghitung kekurangan atau kembalian
-- menandai transaksi sebagai lunas
-- mengunduh invoice PDF
+## Perbandingan singkat
 
-### 6. Inventory
-Digunakan untuk mengelola stok obat dan pergerakan barang.
+### Sebelum
+- Dashboard belum dibedakan per role
+- Rekam medis masih terbatas
+- Belum ada menu poli per cabang
+- Profil user masih sederhana
+- Format data belum seragam
+- Tampilan beberapa halaman masih belum konsisten
 
-### 7. Laporan Keuangan
-Digunakan untuk melihat laporan pendapatan dan pengeluaran berdasarkan rentang tanggal.
+### Sesudah
+- Dashboard lebih fokus sesuai role
+- Rekam medis lebih rinci
+- Pengelolaan poli per cabang tersedia
+- User bisa mengelola profil sendiri
+- Format uang dan telepon lebih rapi
+- Tampilan aplikasi lebih bersih dan modern
 
-### 8. Laporan Stok
-Digunakan untuk melihat laporan barang masuk dan barang keluar berdasarkan rentang tanggal.
+## Persyaratan sistem
 
-### 9. Pengeluaran Cabang
-Digunakan untuk mencatat pengeluaran operasional cabang, seperti pembelian obat, alat, atau kebutuhan operasional lainnya.
+- PHP 8.0 atau lebih baru
+- MySQL atau MariaDB
+- Apache atau Nginx
+- Composer bila diperlukan
 
-### 10. Monitor Antrian Publik
-Halaman publik tanpa login untuk menampilkan:
-- nomor antrian yang sedang dipanggil
-- nomor antrian aktif pada setiap poli
-- suara panggilan otomatis
+## Struktur konfigurasi untuk repo publik
 
-## Teknologi yang Digunakan
+Repository ini **tidak menyimpan file rahasia** seperti kredensial database produksi atau lokal. Untuk itu, repository hanya menyertakan file contoh:
 
-- PHP
-- MySQL / MariaDB
-- HTML, CSS, JavaScript
-- Library PDF sesuai bawaan project
-- Web Speech API untuk pengumuman suara pada monitor antrian
+- `.env.example`
+- `application/config/database.example.php`
 
-## Struktur Singkat Folder
+File berikut tetap dianggap lokal dan tidak boleh ikut commit:
+
+- `.env`
+- `.env.local`
+- `application/config/database.php`
+
+## Cara setup lokal
+
+### 1. Clone repository
 
 ```bash
-application/
-public/
-system/
-storage/
-sql/
-index.php
-.htaccess
-composer.json
-README.md
+git clone https://github.com/Zevalon/klinik-pintar.git
+cd klinik-pintar
+```
+
+### 2. Buat konfigurasi database
+
+Ada dua cara yang bisa dipakai.
+
+#### Opsi A — disarankan untuk repo publik
+Salin file `.env.example` menjadi `.env`, lalu isi nilainya.
+
+```bash
+cp .env.example .env
+```
+
+Isi variabel berikut di file `.env`:
+
+```env
+APP_BASE_URL=http://localhost/klinik-pintar
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=klinik_pintar
+DB_USER=root
+DB_PASS=
+DB_CHARSET=utf8mb4
+```
+
+#### Opsi B — konfigurasi lokal berbasis PHP
+Salin file contoh berikut:
+
+```bash
+cp application/config/database.example.php application/config/database.php
+```
+
+Lalu isi nilainya sesuai server lokal yang digunakan.
+
+> Catatan: file `application/config/database.php` bersifat lokal dan jangan di-commit ke GitHub.
+
+### 3. Import database
+
+Gunakan salah satu file berikut:
+
+- `sql/klinik_pintar.sql` untuk struktur dan data contoh
+- `sql/klinik_pintar_schema_only.sql` untuk struktur saja
+
+### 4. Jalankan patch tambahan bila diperlukan
+
+Patch modul baru tersedia di folder `sql`:
+
+- `sql/patch_medical_records_module.sql`
+- `sql/patch_user_profile_module.sql`
+
+Sebagian modul juga sudah memiliki mekanisme pengecekan struktur tabel saat fitur dibuka. Walau begitu, tetap lebih aman menjalankan patch di lingkungan development atau staging sebelum dipakai di production.
+
+## Catatan untuk repository publik
+
+- Jangan pernah commit file `.env`.
+- Jangan pernah commit `application/config/database.php`.
+- Ganti password user demo setelah import database contoh.
+- Periksa kembali file upload, log, dan cache sebelum membuat commit.
+
+## Ringkasan perubahan
+
+Daftar perubahan lebih ringkas tersedia di file berikut:
+
+- `CHANGELOG.md`
+
+## Lisensi
+
+Mengikuti lisensi yang sudah ada di repository ini.

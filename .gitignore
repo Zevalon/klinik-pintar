@@ -1,6 +1,11 @@
 .DS_Store
 Thumbs.db
 
+# Environment & local config
+.env
+.env.local
+application/config/database.php
+
 # Runtime caches & logs
 application/cache/*
 !application/cache/index.html
@@ -14,10 +19,11 @@ storage/cache/*
 storage/logs/*
 !storage/logs/.gitkeep
 
-!application/*/.htaccess
+storage/uploads/*
+!storage/uploads/profiles/
+!storage/uploads/profiles/index.html
 
-# Local database config
-application/config/database.php
+!application/*/.htaccess
 
 # Dependencies & local tooling
 /vendor/

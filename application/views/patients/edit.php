@@ -41,7 +41,7 @@
       </div>
       <div>
         <label class="mb-1 block text-sm font-medium text-slate-600">No. HP</label>
-        <input class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="phone" value="<?= e($patient['phone']) ?>">
+        <input class="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100" name="phone" value="<?= e($patient['phone'] ? format_phone($patient['phone']) : '') ?>">
       </div>
       <div>
         <label class="mb-1 block text-sm font-medium text-slate-600">Tipe Pasien</label>

@@ -10,7 +10,9 @@ class PatientModel extends Model {
             return [];
         }
         $like = '%' . $keyword . '%';
-        return $this->all("SELECT * FROM patients WHERE branch_id=? AND (name LIKE ? OR nik LIKE ? OR medical_record_no LIKE ? OR phone LIKE ?) ORDER BY name ASC LIMIT 20", [$branchId, $like, $like, $like, $like]);
+        $keywordDigits = digits_only($keyword);
+        $digitsLike = $keywordDigits === '' ? '__PHONE_NO_MATCH__' : '%' . $keywordDigits . '%';
+        return $this->all("SELECT * FROM patients WHERE branch_id=? AND (name LIKE ? OR nik LIKE ? OR medical_record_no LIKE ? OR phone LIKE ? OR REPLACE(phone,'-','') LIKE ?) ORDER BY name ASC LIMIT 20", [$branchId, $like, $like, $like, $like, $digitsLike]);
     }
 
     public function createMedicalRecordNo($branchId) {
@@ -31,8 +33,8 @@ class PatientModel extends Model {
             $params[] = $nik;
         }
         if ($phone && $birthDate) {
-            $conditions[] = "(phone=? AND birth_date=?)";
-            $params[] = $phone;
+            $conditions[] = "(REPLACE(phone,'-','')=? AND birth_date=?)";
+            $params[] = normalize_phone($phone);
             $params[] = $birthDate;
         }
         if (!$conditions) {

@@ -270,7 +270,7 @@ $paidCount = count($paidRecords);
                   <div class="flex items-center justify-between"><span>Sudah dibayar</span><strong class="text-slate-900" data-billing-paid><?= currency($record['paid_total']) ?></strong></div>
                   <div>
                     <label class="mb-1 block text-sm font-medium text-slate-600">Diskon</label>
-                    <input name="discount" value="<?= e(number_format($previewDiscount, 0, ',', '.')) ?>" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" placeholder="0">
+                    <input name="discount" value="<?= e(number_format($previewDiscount, 0, ',', '.')) ?>" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" placeholder="Rp 0">
                   </div>
                   <div class="flex items-center justify-between border-t border-slate-200 pt-2"><span>Total Tagihan</span><strong class="text-slate-900" data-billing-total><?= currency($previewTotal) ?></strong></div>
                   <div class="flex items-center justify-between"><span>Sisa yang harus dibayar</span><strong class="text-emerald-700" data-billing-due><?= currency($remainingTotal) ?></strong></div>
@@ -279,7 +279,7 @@ $paidCount = count($paidRecords);
 
               <div>
                 <label class="mb-1 block text-sm font-medium text-slate-600">Nominal uang pembayaran cash</label>
-                <input name="amount_received" value="<?= e(number_format($remainingTotal, 0, ',', '.')) ?>" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" placeholder="Masukkan nominal uang tunai">
+                <input name="amount_received" value="<?= e(number_format($remainingTotal, 0, ',', '.')) ?>" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" placeholder="Rp 0">
               </div>
 
               <div data-billing-message class="rounded-2xl bg-white px-4 py-3 text-xs text-slate-500 ring-1 ring-inset ring-slate-200">Masukkan nominal uang tunai yang diterima kasir.</div>
